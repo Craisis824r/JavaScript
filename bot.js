@@ -2,13 +2,11 @@ const { Builder, By } = require('selenium-webdriver');
 const XLSX = require('xlsx');
 
 (async function bot() {
-    // Crear una instancia del controlador de Chrome
     const driver = await new Builder()
         .forBrowser('chrome')
         .build();
 
     try {
-        // Abrir una página web
         await driver.get('https://listado.tucarro.com.co/subaru#D[A:subaru]');
         // await driver.sleep(2000)
         // let pages = driver.findElement(By.css('li[class="andes-pagination__page-count"]')).getText()
@@ -26,17 +24,15 @@ const XLSX = require('xlsx');
                 let Car = await car.findElement(By.css('h2.ui-search-item__title.shops__item-title')).getText();
                 let Price = await car.findElement(By.css('span.andes-money-amount__fraction')).getText();
                 let Location = await car.findElement(By.css('span.ui-search-item__group__element.ui-search-item__location.shops__items-group-details')).getText();
-                await car.findElements(By.css('li.ui-search-card-attributes__attribute')).then((elements) => {
-                    elements[0].getText().then((text) => {
-                        year = text
-                    });
-                    elements[1].getText().then((text) => {
-                        km = text
-                    });
-                });
-                console.log(year, km)
+                let year_km = await car.findElements(By.css('li.ui-search-card-attributes__attribute'))
+                if (year_km.length >= 1) {
+                    year = await year_km[0].getText();
+                }
 
-                // console.log(Car, year, km, Location, Price)
+                if (year_km.length >= 2) {
+                    km = await year_km[1].getText();
+                }
+
                 List.push({ 'Tipo': Car, 'Año': year, 'Km': km, 'Ubicación': Location, 'Precio': Price, });
             }
             if (pages > amount) {
