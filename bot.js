@@ -7,12 +7,12 @@ const XLSX = require('xlsx');
         .build();
 
     try {
-        await driver.get('https://listado.tucarro.com.co/subaru#D[A:subaru]');
+        await driver.get('https://listado.tucarro.com.co/dodge#D[A:dodge]');
         // await driver.sleep(2000)
         // let pages = driver.findElement(By.css('li[class="andes-pagination__page-count"]')).getText()
         // pages = parseInt(pages.substring(2, 8))
         let amount = 1
-        const pages = 7
+        const pages = 12
         const List = []
         let year, km
 
